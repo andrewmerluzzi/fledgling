@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fledgling</title>
+<meta name="description" content="Sound ID for very small birds: which bird does the baby sound like right now?">
+<meta name="theme-color" content="#f4efe4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1813" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Fledgling">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="css/app.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/icon.svg" alt="" class="logo" width="34" height="34">
+      <div>
+        <h1>Fledgling</h1>
+        <p class="tag" id="tagline">Sound ID for very small birds</p>
+      </div>
+    </div>
+    <button class="icon-btn" id="btn-settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7Zm7.4-2.5a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.5h-4l-.4 2.5a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1c.5.4 1.1.8 1.7 1l.4 2.5h4l.4-2.5c.6-.2 1.2-.6 1.7-1l2.4 1 2-3.4-2-1.6Z"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section id="view-listen" class="view active" aria-label="Listen">
+      <div class="spectro-card">
+        <canvas id="spec" aria-label="Live spectrogram"></canvas>
+        <canvas id="spec-overlay" aria-hidden="true"></canvas>
+        <div class="freq-axis" id="freq-axis" aria-hidden="true"></div>
+        <div class="spec-hint" id="spec-hint"><div>Hold the phone near your little bird<br>and tap <b>Start listening</b>.</div></div>
+      </div>
+      <div class="status-row">
+        <span class="status" id="status">Not listening</span>
+        <span class="meter" aria-hidden="true"><span id="meter-fill"></span></span>
+      </div>
+      <div id="latest"></div>
+      <div class="session-head">
+        <h2 class="section-title">Heard this session</h2>
+        <span class="muted small" id="session-count"></span>
+      </div>
+      <ul id="session-list" class="bird-list"></ul>
+      <p class="empty muted" id="session-empty"></p>
+    </section>
+
+    <section id="view-life" class="view" aria-label="Life list">
+      <div class="page-head">
+        <h2 class="page-title" id="life-title">Life List</h2>
+        <p class="muted" id="life-sub"></p>
+      </div>
+      <ul id="life-list" class="bird-list"></ul>
+      <p class="empty muted" id="life-empty">No birds confirmed yet. A species joins the life list after a <b>good</b> or <b>strong</b> match.</p>
+      <h3 class="section-title">Recent sightings</h3>
+      <ul id="recent-list" class="sighting-list"></ul>
+      <p class="empty muted" id="recent-empty">No sightings yet.</p>
+    </section>
+
+    <section id="view-guide" class="view" aria-label="Field guide">
+      <div class="page-head">
+        <h2 class="page-title">Field Guide</h2>
+        <p class="muted" id="guide-sub"></p>
+      </div>
+      <ul id="guide-list" class="guide-grid"></ul>
+    </section>
+  </main>
+
+  <div class="listen-dock" id="listen-dock">
+    <button id="btn-listen" class="listen-btn" aria-pressed="false">
+      <span class="pulse" aria-hidden="true"></span>
+      <svg class="mic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11h-2Z"/></svg>
+      <span class="label">Start listening</span>
+    </button>
+  </div>
+
+  <nav class="tabbar" aria-label="Sections">
+    <button data-view="listen" class="active">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10h2v4H3zm4-3h2v10H7zm4-4h2v18h-2zm4 6h2v6h-2zm4-2h2v10h-2z"/></svg>
+      <span>Listen</span>
+    </button>
+    <button data-view="life">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h11a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1Zm2 4v2h8V6H8Zm0 4v2h8v-2H8Zm0 4v2h5v-2H8Z"/></svg>
+      <span>Life List</span>
+    </button>
+    <button data-view="guide">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.5 4.5c-2 0-3.6 1.3-4.2 3.1L4 10.5l6.5 1.3L12 20l2.9-6.4c2.8-.3 4.9-2.6 4.9-5.4V4.5h-4.3Zm.8 2.3a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8Z"/></svg>
+      <span>Field Guide</span>
+    </button>
+  </nav>
+</div>
+
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <div class="sheet-panel" role="dialog" aria-modal="true">
+    <div class="sheet-grab" data-close></div>
+    <button class="sheet-close icon-btn" data-close aria-label="Close">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4L12 13.4 6.4 19 5 17.6 10.6 12 5 6.4z"/></svg>
+    </button>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="lifer" aria-live="polite"></div>
+</body>
+</html>

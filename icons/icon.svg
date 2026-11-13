@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#f4efe4"/>
+  <!-- sound bars -->
+  <g fill="#e2a43a" opacity=".9">
+    <rect x="398" y="206" width="20" height="56" rx="10"/>
+    <rect x="432" y="176" width="20" height="116" rx="10"/>
+    <rect x="466" y="212" width="20" height="44" rx="10"/>
+  </g>
+  <!-- fledgling body -->
+  <ellipse cx="226" cy="300" rx="150" ry="140" fill="#2f5d46"/>
+  <ellipse cx="206" cy="340" rx="92" ry="78" fill="#f6e3c4"/>
+  <!-- wing -->
+  <path d="M92 286c-4 54 30 98 84 112-22-28-30-66-22-104-24-14-46-18-62-8z" fill="#24493a"/>
+  <!-- tuft -->
+  <path d="M226 162c-6-30 8-52 30-60-6 18-2 34 10 46-14-2-28 2-40 14z" fill="#2f5d46"/>
+  <!-- eye -->
+  <circle cx="262" cy="248" r="20" fill="#fffdf7"/>
+  <circle cx="267" cy="250" r="11" fill="#13241c"/>
+  <circle cx="271" cy="245" r="4" fill="#fffdf7"/>
+  <!-- open beak -->
+  <path d="M330 252l50-14-48 28z" fill="#e2a43a"/>
+  <path d="M330 276l46 14-48 4z" fill="#c9781f"/>
+  <!-- feet -->
+  <g stroke="#c9781f" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M196 432v26m0 0l-16 10m16-10l16 10"/>
+    <path d="M256 430v28m0 0l-16 10m16-10l16 10"/>
+  </g>
+</svg>
