@@ -55,7 +55,11 @@ export class LiveSpectrogram {
     this.last = -1;
     this.marks = [];
   }
-  mark(a, b, label, strong) { this.marks.push({ a, b, label, strong }); if (this.marks.length > 30) this.marks.shift(); }
+  mark(a, b, label, strong, kind = 'call') { this.marks.push({ a, b, label, strong, kind }); if (this.marks.length > 40) this.marks.shift(); }
+  label(a, b, label, strong) {
+    const m = this.marks.find(m => m.a === a && m.b === b);
+    if (m) { m.label = label; m.strong = strong; } else this.mark(a, b, label, strong);
+  }
 
   update(an) {
     const cur = an.frame;
@@ -97,11 +101,13 @@ export class LiveSpectrogram {
     for (const m of this.marks) {
       const x0 = xOf(m.a), x1 = xOf(m.b + 1);
       if (x1 < 0) continue;
-      g.strokeStyle = m.strong ? 'rgba(255,214,140,0.95)' : 'rgba(255,246,222,0.45)';
+      g.strokeStyle = m.strong ? 'rgba(255,214,140,0.95)' : m.kind === 'ignored' ? 'rgba(255,246,222,0.22)' : 'rgba(255,246,222,0.55)';
       g.lineWidth = 1.5;
+      g.setLineDash(m.kind === 'ignored' ? [2, 3] : []);
       g.beginPath();
       g.moveTo(x0, ch - 6); g.lineTo(x0, ch - 2); g.lineTo(x1, ch - 2); g.lineTo(x1, ch - 6);
       g.stroke();
+      g.setLineDash([]);
       if (m.label) {
         const tw = g.measureText(m.label).width;
         const lx = Math.max(4, Math.min(cw - tw - 12, x0));
@@ -121,7 +127,8 @@ export class LiveSpectrogram {
 }
 
 // Static spectrogram of a short clip (24 kHz samples) into a canvas.
-export function drawClip(canvas, samples) {
+// sel = [t0, t1] seconds to highlight (the part that was matched).
+export function drawClip(canvas, samples, sel) {
   const an = new Analyzer({ ringSeconds: samples.length / SR + 1, onDb: 99 });
   an.seedNoise(samples);
   an.push(samples);
@@ -135,4 +142,12 @@ export function drawClip(canvas, samples) {
     if (P) paintColumn(img.data, W, f, H, rows, P, an.Ndb);
   }
   ctx.putImageData(img, 0, 0);
+  if (sel) {
+    const x0 = Math.max(0, Math.round(sel[0] * FPS)), x1 = Math.min(W, Math.round(sel[1] * FPS));
+    ctx.fillStyle = 'rgba(10,20,16,0.6)';
+    ctx.fillRect(0, 0, x0, H);
+    ctx.fillRect(x1, 0, W - x1, H);
+    ctx.fillStyle = 'rgba(255,214,140,0.95)';
+    ctx.fillRect(x0, H - 3, Math.max(1, x1 - x0), 3);
+  }
 }

@@ -14,7 +14,13 @@ iOS may ask for microphone permission again each time the app is opened from the
 
 ## How the match works
 
-Every sound is split into **calls** (sound rising above the room's background, separated by ≥150 ms of quiet). For each call, `js/analysis.js` measures:
+Every sound is split into **calls** (sound rising above the room's background, separated by ≥400 ms of quiet, so "ba-ba-ba" stays together).
+
+Only **clear voice** counts (`clearCall` in `js/match.js`): pitched (energy on a harmonic series, ≥6 dB above the energy between harmonics, in ≥35% of the call), 150–2,500 Hz, ≥0.2 s long, and ≥10 dB above the room. Breathing, rustling, fans, handling bumps and clinks are ignored.
+
+Clear calls less than a second apart form a **bout**: one sighting, one saved clip (whole bout + 0.8 s before / 0.6 s after). The bout is identified by its longest, most-voiced call, chosen *before* matching so the best score is never cherry-picked; that call is highlighted in the clip's spectrogram.
+
+For each call, `js/analysis.js` measures:
 
 | Trait | What's measured |
 |---|---|
@@ -32,16 +38,18 @@ The *exact same code* analyses the reference birds (in Node, at build time) and 
 
 `tools/build.mjs` tests the matcher on real bird calls from recordings it has never seen (leave-one-recording-out, 1,000+ calls):
 
-- right species first: **~29%** (pure guessing: 2.8%); in the top 3: **~46%**
+- right species first: **~33%** (~35% on clear-voice calls; pure guessing: 2.8%); in the top 3: **~49%**
 - most mistakes are sensible: crow↔raven, cardinal→mockingbird, sandhill crane→heron, turkey↔peafowl
 
-With 36 birds, *some* bird will always be closest, so the labels are calibrated on calls whose species was **removed from the guide** (the baby's situation):
+With 36 birds, *some* bird will always be closest, so the labels are calibrated on clear-voice calls whose species was **removed from the guide** (the baby's situation):
 
 | Label | Sounds from outside the guide that earn it | When a real bird earns it, top pick is right |
 |---|---|---|
-| Strong match | 5% | ~72% |
-| Good match | 15% | ~58% |
-| Possible match | 40% | ~44% |
+| Strong match | 5% | ~80% |
+| Good match | 15% | ~65% |
+| Possible match | 40% | ~53% |
+
+(Matcher settings were tuned on this same test, so treat these as slightly optimistic.)
 
 Anything weaker is shown as *Unidentified (closest: …)* and isn't logged. A species joins the life list after a good or strong match.
 

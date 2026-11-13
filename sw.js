@@ -1,6 +1,6 @@
 // Offline support. App code: network-first (so updates arrive), falling back
 // to cache. Bird audio and photos: cache-first.
-const VERSION = 'fledgling-v1';
+const VERSION = 'fledgling-v2';
 const CORE = [
   './', 'index.html', 'css/app.css', 'manifest.webmanifest',
   'js/app.js', 'js/analysis.js', 'js/match.js', 'js/store.js', 'js/wav.js', 'js/spectrogram.js', 'js/worklet.js',

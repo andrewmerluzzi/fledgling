@@ -1,5 +1,5 @@
-import { Analyzer, Resampler, SR } from './analysis.js';
-import { rankBirds, TRAITS, TRAIT_LABELS, scoreAtRarity } from './match.js';
+import { Analyzer, Resampler, SR, HOP, WIN, FPS } from './analysis.js';
+import { rankBirds, TRAITS, TRAIT_LABELS, scoreAtRarity, clearCall, GATE } from './match.js';
 import * as store from './store.js';
 import { encodeWav, decodeWav } from './wav.js';
 import { LiveSpectrogram, drawClip, yOfFreq } from './spectrogram.js';
@@ -7,8 +7,12 @@ import { LiveSpectrogram, drawClip, yOfFreq } from './spectrogram.js';
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const pct = v => Math.round(v * 100);
-const LIVE_PEAK_MIN = 6; // dB above background before a sound counts as a call
-const MIN_DUR = 0.15;    // s: same minimum call length as the reference birds
+// A "bout" = clear calls separated by less than a second. One sighting per
+// bout; the saved clip covers the whole bout plus a little before and after.
+const BOUT_GAP = Math.round(1.0 * FPS);   // frames
+const BOUT_MAX = Math.round(8 * FPS);
+const PRE_ROLL = 0.8, POST_ROLL = 0.6;    // seconds of context in the clip
+let bout = null;
 
 const TRAIT_HELP = {
   pitch: 'How high or low (allowing for baby-vs-bird range)',
@@ -244,6 +248,7 @@ async function openSighting(key) {
     </div>
     <div class="block"><h4>Compare</h4><div class="compare">
       ${wav ? clipBox(babyName(), 'baby') : '<p class="small muted">No clip saved for this sighting.</p>'}
+      ${wav && s.sel ? `<p class="small muted" style="margin:-2px 0 2px">The bright part (${(s.sel[1] - s.sel[0]).toFixed(1)} s) is the call that was matched${s.calls > 1 ? `: the longest of ${s.calls} calls in this ${s.boutDur.toFixed(1)} s bout` : ''}.</p>` : ''}
       ${b.clip ? clipBox(`Real ${b.name}`, 'bird') : ''}
     </div></div>
     ${s.runners?.length ? `<div class="block"><h4>Runners-up</h4>${s.runners.map(r => `<div class="trait wide"><span>${esc(BIRDS[r.id].name)}</span><div class="bar"><span style="width:${pct(r.score)}%;background:var(--muted)"></span></div><span class="v">${pct(r.score)}%</span></div>`).join('')}</div>` : ''}
@@ -253,7 +258,7 @@ async function openSighting(key) {
       ${s.id ? `<button class="btn danger" data-act="delete" data-id="${s.id}">Delete</button>` : ''}
     </div>`;
   openSheet(html, async body => {
-    if (wav) setupClip(body.querySelector('[data-clip="baby"]'), { wav });
+    if (wav) setupClip(body.querySelector('[data-clip="baby"]'), { wav, sel: s.sel });
     if (b.clip) setupClip(body.querySelector('[data-clip="bird"]'), { url: `audio/${b.id}.m4a` });
     const sh = body.querySelector('[data-act="share"]');
     if (sh) sh.onclick = () => shareClip(wav, `${babyName()} as a ${b.name}`);
@@ -305,7 +310,8 @@ function openSettings() {
     <div class="field toggle"><label for="set-clips" style="margin:0">Save audio clips of sightings</label>
       <input type="checkbox" id="set-clips" ${settings.saveClips ? 'checked' : ''}></div>
     <div class="block prose"><h4>How the match works</h4>
-      <p>Each sound is split into <b>calls</b>. For every call we measure pitch, the shape of the pitch (rising, falling, wobbling), rhythm (pulses, rattles, syllables), tone (whistle vs. rasp) and length, then compare against ${DB.birds.reduce((a, b) => a + b.refs.length, 0)} real bird calls from ${DB.birds.reduce((a, b) => a + (b.recordings?.length || 0), 0)} xeno-canto recordings.</p>
+      <p>Only <b>clear voice</b> counts: a pitched sound in a baby\u2019s range (150\u20132,500 Hz), at least 0.2 s long and well above the room\u2019s background. Breathing, rustling, fans and clinks are ignored (they show as faint dotted marks on the spectrogram).</p>
+      <p>Calls less than a second apart form one <b>bout</b>, saved as one clip with a little audio before and after. The bout is identified by its longest, most voiced call, picked <i>before</i> matching so we never cherry-pick the best score. For that call we measure pitch, the shape of the pitch (rising, falling, wobbling), rhythm (pulses, rattles, syllables), tone (whistle vs. rasp) and length, then compare against ${DB.birds.reduce((a, b) => a + b.refs.length, 0)} real bird calls from ${DB.birds.reduce((a, b) => a + (b.recordings?.length || 0), 0)} xeno-canto recordings.</p>
       <p>The percentage is a weighted geometric average of those five similarities, so one big mismatch drags it down hard.</p>
       <p>We tested the same code on real bird calls it had never seen (leaving each recording out in turn):</p>
       <div class="stats">
@@ -369,7 +375,7 @@ async function fetchSamples(src) {
 function setupClip(box, src) {
   if (!box) return;
   const canvas = box.querySelector('canvas'), btn = box.querySelector('.play'), head = box.querySelector('.playhead');
-  fetchSamples(src).then(x => drawClip(canvas, x)).catch(() => {});
+  fetchSamples(src).then(x => drawClip(canvas, x, src.sel)).catch(() => {});
   btn.onclick = async () => {
     if (player && player.btn === btn) { stopPlayback(); return; }
     stopPlayback();
@@ -485,19 +491,51 @@ class Listener {
   }
 }
 
+// Every detected sound arrives here. Only clear, pitched, baby-range calls
+// count (breathing, rustling, fans, clinks are ignored); they're collected
+// into a bout that is identified once it's over.
 async function handleCall(ev, an) {
-  if (!ev.feat || ev.peak < LIVE_PEAK_MIN || ev.feat.dur < MIN_DUR) return;
-  const ranked = rankBirds(ev.feat, DB.birds, DB.params);
+  if (!ev.feat) return;
+  const peakMin = Math.max(6, GATE.peak + settings.sensitivity);
+  const clear = ev.peak >= peakMin && clearCall(GATE.peak, ev.feat); // sensitivity shifts the loudness bar
+  spec.mark(ev.a, ev.b, '', false, clear ? 'call' : 'ignored');
+  if (!clear) return;
+  if (bout && ev.a - bout.b > BOUT_GAP) await closeBout(an);
+  if (!bout) bout = { calls: [], a: ev.a, b: ev.b };
+  bout.calls.push(ev);
+  bout.b = ev.b;
+  if (bout.b - bout.a > BOUT_MAX) await closeBout(an);
+}
+
+function boutIsOver(an) {
+  if (!bout) return false;
+  const cur = an.current();
+  if (cur && cur.a - bout.b <= BOUT_GAP) return false;   // still going
+  return an.frame - bout.b > BOUT_GAP + 40;               // 40 = call-end detection delay
+}
+
+async function closeBout(an) {
+  const B = bout;
+  bout = null;
+  if (!B) return;
+  // Identify the bout by its most informative call (longest x most voiced).
+  // Chosen BEFORE matching, so we never cherry-pick the best-scoring call.
+  const rep = B.calls.reduce((x, y) => (y.feat.dur * y.feat.vf > x.feat.dur * x.feat.vf ? y : x));
+  const ranked = rankBirds(rep.feat, DB.birds, DB.params);
   if (!ranked.length) return;
   const top = ranked[0];
   const a = assess(top);
+  const audio = an.audio(B.a, B.b, PRE_ROLL, POST_ROLL);
+  const tOf = f => ((f + 1) * HOP - audio.start) / SR;
   const s = {
     ts: Date.now(), bird: top.id, score: +top.score.toFixed(4), rarity: top.rarity == null ? null : +top.rarity.toFixed(4),
     level: a.level, traits: Object.fromEntries(TRAITS.map(k => [k, +top.traits[k].toFixed(3)])),
-    runners: ranked.slice(1, 4).map(r => ({ id: r.id, score: +r.score.toFixed(4) })), feat: ev.feat,
+    runners: ranked.slice(1, 4).map(r => ({ id: r.id, score: +r.score.toFixed(4) })), feat: rep.feat,
+    sel: [+Math.max(0, tOf(rep.a) - WIN / SR).toFixed(3), +tOf(rep.b).toFixed(3)],
+    calls: B.calls.length, boutDur: +((B.b - B.a + 1) / FPS).toFixed(2),
   };
-  const wav = encodeWav(an.audio(ev.a, ev.b, 0.35), SR);
-  spec.mark(ev.a, ev.b, a.level ? `${BIRDS[top.id].name} ${pct(top.score)}%` : `? ${pct(top.score)}%`, a.level >= 2);
+  const wav = encodeWav(audio, SR);
+  spec.label(rep.a, rep.b, a.level ? `${BIRDS[top.id].name} ${pct(top.score)}%` : `? ${pct(top.score)}%`, a.level >= 2);
   if (a.level >= 1) {
     const lifer = a.level >= 2 && !lifeMap().has(s.bird);
     try {
@@ -542,9 +580,10 @@ async function startListening() {
     const loop = () => {
       if (!listener) return;
       if (listener.ready) {
-        spec.update(listener.analyzer);
-        const cur = listener.analyzer.current();
-        setStatus(cur ? 'Hearing a call…' : 'Listening', true);
+        const an = listener.analyzer;
+        spec.update(an);
+        if (boutIsOver(an)) closeBout(an);
+        setStatus(bout ? `Listening to ${babyName()}…` : an.current() ? 'Hearing something…' : 'Listening', true);
       }
       raf = requestAnimationFrame(loop);
     };
@@ -567,6 +606,7 @@ async function stopListening() {
   if (L.ready) {
     const ev = L.analyzer.flush();
     if (ev) await handleCall(ev, L.analyzer);
+    if (bout) await closeBout(L.analyzer);
   }
   await L.stop();
   try { await wakeLock?.release(); } catch {}
@@ -623,9 +663,16 @@ async function init() {
     const an = new Analyzer({ onDb: settings.sensitivity });
     an.seedNoise(samples.subarray(0, Math.min(samples.length, SR * 2)));
     const out = [];
-    for (let i = 0; i < samples.length; i += 4096) for (const ev of an.push(samples.subarray(i, i + 4096))) { await handleCall(ev, an); out.push(latest?.s); }
+    let last = null;
+    const note = () => { if (latest && latest !== last) { last = latest; out.push(latest.s); } };
+    for (let i = 0; i < samples.length; i += 4096) {
+      for (const ev of an.push(samples.subarray(i, i + 4096))) { await handleCall(ev, an); note(); }
+      if (boutIsOver(an)) { await closeBout(an); note(); }
+    }
     const fl = an.flush();
-    if (fl) { await handleCall(fl, an); out.push(latest?.s); }
+    if (fl) await handleCall(fl, an);
+    if (bout) await closeBout(an);
+    note();
     return out;
   };
 }

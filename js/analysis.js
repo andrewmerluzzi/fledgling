@@ -19,7 +19,8 @@ export const B0 = Math.ceil(150 / DF);
 export const B1 = Math.floor(10000 / DF);
 export const NB = B1 + 1;            // bins kept: 0 .. 10 kHz
 
-const GAP = 15;        // frames of quiet that end a call (150 ms)
+export const DEFAULT_GAP = 40; // frames of quiet that end a call (400 ms): keeps "ba-ba-ba" together
+const VOICE_DB = 6;    // harmonic vs. in-between energy needed to call a frame "voiced"
 const MINACT = 8;      // need >= 80 ms of active sound
 const MAXLEN = 400;    // force-close calls at 4 s
 const WS = 256;        // short window for the level envelope (10.7 ms)
@@ -107,20 +108,22 @@ function shs(C, tot) {
     if (den < 0) kk += Math.max(-0.5, Math.min(0.5, 0.5 * (y0 - y2) / den));
   }
   const f0 = 80 * 2 ** (kk / 48);
-  // Voicing = share of energy sitting on the harmonic series, above chance.
+  // Voicing: energy ON the harmonic series vs. energy BETWEEN harmonics.
+  // A voice or whistle has sharp peaks with gaps between them; breath,
+  // rustling and fans are flat, so the ratio stays near 0 dB.
   const H2 = Math.min(20, Math.floor(10000 / f0));
-  const tok = ++stampTok;
-  let he = 0, cnt = 0;
+  let on = 1e-20, off = 1e-20;
+  const band = (centre) => {
+    let s = 0;
+    for (let b = Math.round(centre) - 1; b <= Math.round(centre) + 1; b++) if (b >= B0 && b <= B1) s += C[b];
+    return s;
+  };
   for (let h = 1; h <= H2; h++) {
-    const c = Math.round(h * f0 / DF);
-    for (let b = c - 3; b <= c + 3; b++) {
-      if (b < B0 || b > B1 || STAMP[b] === tok) continue;
-      STAMP[b] = tok; he += C[b]; cnt++;
-    }
+    on += band(h * f0 / DF);
+    if ((h + 0.5) * f0 <= 10000) off += band((h + 0.5) * f0 / DF);
   }
-  const base = cnt / (B1 - B0 + 1);
-  const voicing = (he / tot - base) / (1 - base);
-  return { f0, voicing };
+  const hir = 10 * Math.log10(on / off);
+  return { f0, hir };
 }
 
 function wMedian(pairs, q = 0.5) {
@@ -146,6 +149,7 @@ const r3 = v => Math.round(v * 1000) / 1000;
 export class Analyzer {
   constructor(opts = {}) {
     this.onDb = opts.onDb ?? 0;             // call detection threshold (clean/noise dB)
+    this.gap = opts.gap ?? DEFAULT_GAP;
     this.R = Math.round((opts.ringSeconds ?? 10) * FPS);
     this.SRN = this.R * HOP;
     this.samples = new Float32Array(this.SRN);
@@ -231,13 +235,15 @@ export class Analyzer {
   }
 
   // Audio (high-passed, 24 kHz) covering frames a..b plus padding seconds.
-  audio(a, b, pad = 0.25) {
-    let s0 = (a + 1) * HOP - WIN - Math.round(pad * SR);
-    let s1 = (b + 1) * HOP + Math.round(pad * SR);
+  // Returns samples with .start = absolute sample index of the first one.
+  audio(a, b, pre = 0.25, post = pre) {
+    let s0 = (a + 1) * HOP - WIN - Math.round(pre * SR);
+    let s1 = (b + 1) * HOP + Math.round(post * SR);
     s0 = Math.max(s0, this.n - this.SRN + 1, 0);
     s1 = Math.min(s1, this.n);
     const out = new Float32Array(Math.max(0, s1 - s0));
     for (let i = 0; i < out.length; i++) out[i] = this.samples[(s0 + i) % this.SRN];
+    out.start = s0;
     return out;
   }
 
@@ -311,7 +317,7 @@ export class Analyzer {
     } else {
       const s = this.seg;
       if (active) { s.last = f; s.nact++; if (snr > s.peak) s.peak = snr; }
-      if (f - s.last > GAP || f - s.a >= MAXLEN) {
+      if (f - s.last > this.gap || f - s.a >= MAXLEN) {
         this.seg = null;
         if (s.nact >= MINACT) ev = this._finish(s);
       }
@@ -355,13 +361,13 @@ export class Analyzer {
         const y0 = C[mb - 1], y1 = C[mb], y2 = C[mb + 1], den = y0 - 2 * y1 + y2;
         if (den < 0) pk += Math.max(-0.5, Math.min(0.5, 0.5 * (y0 - y2) / den));
       }
-      const { f0, voicing } = shs(C, tot);
+      const { f0, hir } = shs(C, tot);
       const w = Math.sqrt(tot);
       wSum += w;
       flS += w * ent;
       bwS += w * bw;
       pkL.push([Math.log2(pk * DF), w]);
-      if (voicing > 0.4) { wV += w; st[k] = 12 * Math.log2(f0); f0L.push([Math.log2(f0), w]); }
+      if (hir > VOICE_DB) { wV += w; st[k] = 12 * Math.log2(f0); f0L.push([Math.log2(f0), w]); }
     }
     if (wSum === 0) return null;
     const vf = wV / wSum;

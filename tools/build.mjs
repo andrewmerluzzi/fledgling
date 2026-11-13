@@ -8,8 +8,8 @@
 // identified against references built WITHOUT that recording, so a bird never
 // gets to "recognise itself".
 import { SPECIES } from './species.mjs';
-import { Analyzer, SR } from '../js/analysis.js';
-import { DEFAULT_PARAMS, traits, combine, TRAITS, rarity } from '../js/match.js';
+import { Analyzer, SR, DEFAULT_GAP } from '../js/analysis.js';
+import { DEFAULT_PARAMS, traits, combine, TRAITS, rarity, clearCall } from '../js/match.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -25,6 +25,7 @@ const PER_REC = 12;       // candidate calls per recording (loudest first)
 const KEEP_FRAC = 0.6;    // consensus filter keeps the best-supported 60%
 const MAX_REFS = 40;
 const args = process.argv.slice(2);
+const GAPF = +(process.env.GAP || DEFAULT_GAP);
 
 // ---------- extraction (cached per analysis.js version) ----------
 function decode(file, maxSec = 90) {
@@ -34,7 +35,7 @@ function decode(file, maxSec = 90) {
 
 export function extractFile(file) {
   const x = decode(file);
-  const an = new Analyzer();
+  const an = new Analyzer({ gap: GAPF });
   an.seedNoise(x.subarray(0, Math.min(x.length, 30 * SR)));
   const segs = [];
   for (let i = 0; i < x.length; i += 8192) segs.push(...an.push(x.subarray(i, i + 8192)));
@@ -49,7 +50,7 @@ function loadSpecies(sp) {
   try { meta = JSON.parse(fs.readFileSync(path.join(dir, 'meta.json'), 'utf8')); } catch { return null; }
   const files = meta.files.filter(f => f.source === 'xc');
   if (!files.length) return null;
-  const cacheFile = path.join(dir, `segs-${HASH}.json`);
+  const cacheFile = path.join(dir, `segs-${HASH}-g${GAPF}.json`);
   let cache = {};
   try { cache = JSON.parse(fs.readFileSync(cacheFile, 'utf8')); } catch {}
   let dirty = false;
@@ -125,7 +126,7 @@ function evaluate(data, P, { full = false } = {}) {
         if (rank < 3) top3++;
         n++; na++;
         genuine[a].push(sa);
-        if (full) rows.push({ a, scores });
+        if (full) rows.push({ a, scores, clear: clearCall(q.peak, q.feat) });
         if (full) scores.forEach((s, b) => { if (b !== a) impostor[b].push(s); });
       }
     }
@@ -217,7 +218,9 @@ console.log(`  median score, right bird: ${(med(allG) * 100).toFixed(0)}%   wron
 // set so that such sounds rarely earn them.
 const IQ = ev.impostor.map(a => tailQuantiles(a));
 const absRar = [], present = [];
-for (const r of ev.rows) {
+const clearRows = ev.rows.filter(r => r.clear);
+console.log(`  clear voiced calls (pass the baby gate): ${clearRows.length} of ${ev.rows.length}`);
+for (const r of clearRows) {
   let tb = -1, ts = -1, ta = -1, tsa = -1;
   r.scores.forEach((s, b) => { if (s > ts) { ts = s; tb = b; } if (b !== r.a && s > tsa) { tsa = s; ta = b; } });
   absRar.push(rarity(tsa, IQ[ta]));
@@ -232,7 +235,9 @@ absRar.sort((x, y) => x - y);
 const at = q => absRar[Math.floor(q * (absRar.length - 1))];
 const LEVELS = { strong: +at(0.05).toFixed(4), good: +at(0.15).toFixed(4), possible: +at(0.40).toFixed(4) };
 const prec = th => { const sel = present.filter(p => p.rar <= th); return { n: sel.length, frac: sel.length / present.length, prec: sel.filter(p => p.ok).length / Math.max(1, sel.length) }; };
-console.log('\nLabel thresholds (rarity of top bird), calibrated on absent-species calls:');
+const clearAcc = clearRows.filter(r => r.scores.indexOf(Math.max(...r.scores)) === r.a).length / clearRows.length;
+console.log(`  top-1 on clear calls: ${(clearAcc * 100).toFixed(1)}%`);
+console.log('\nLabel thresholds (rarity of top bird), calibrated on absent-species clear calls:');
 for (const [k, th] of Object.entries(LEVELS)) {
   const p = prec(th);
   console.log(`  ${k.padEnd(9)} rarity <= ${th.toFixed(4)}   real birds: ${(p.frac * 100).toFixed(0)}% of calls get it, top pick right ${(p.prec * 100).toFixed(0)}% of the time`);

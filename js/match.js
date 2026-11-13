@@ -28,6 +28,15 @@ export const DEFAULT_PARAMS = {
 
 const g = (d, s) => Math.exp(-0.5 * (d / s) ** 2);
 
+// "Is this clearly a baby vocalising?" Only calls that pass are identified.
+// Same rule is applied to the bird calls used for label calibration.
+export const GATE = { peak: 10, dur: 0.2, vf: 0.35, fmin: 150, fmax: 2500 };
+export function clearCall(peak, f) {
+  if (!f || peak < GATE.peak || f.dur < GATE.dur || f.vf < GATE.vf) return false;
+  const hz = 2 ** f.p;
+  return hz >= GATE.fmin && hz <= GATE.fmax;
+}
+
 const DTW_D = new Float64Array(33 * 33), DTW_L = new Float64Array(33 * 33);
 function dtw(a, b, band = 3) {
   const n = a.length, m = b.length, W = m + 1, INF = 1e18;

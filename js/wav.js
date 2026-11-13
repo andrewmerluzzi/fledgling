@@ -2,7 +2,7 @@
 export function encodeWav(samples, rate) {
   let peak = 0;
   for (let i = 0; i < samples.length; i++) peak = Math.max(peak, Math.abs(samples[i]));
-  const gain = peak > 0 ? Math.min(8, 0.89 / peak) : 1; // gentle normalisation for playback
+  const gain = peak > 0 ? Math.min(16, 0.92 / peak) : 1; // normalise so quiet coos are audible
   const n = samples.length, buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
   const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
   w(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); w(8, 'WAVE');

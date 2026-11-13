@@ -10,13 +10,13 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## American Crow (*Corvus brachyrhynchos*)
 
-- Field guide clip: Fred Rowley, [XC1104243](https://xeno-canto.org/1104243), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Stanislas Wroza, [XC1013832](https://xeno-canto.org/1013832), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1182536](https://xeno-canto.org/1182536) Christian Kerihuel (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1172881](https://xeno-canto.org/1172881) Rachel Thurman (CC Attribution 4.0); [XC1013832](https://xeno-canto.org/1013832) Stanislas Wroza (CC Attribution-NonCommercial-ShareAlike 4.0); [XC952207](https://xeno-canto.org/952207) Cin-Ty Lee (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1133843](https://xeno-canto.org/1133843) Rory Nefdt (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1104243](https://xeno-canto.org/1104243) Fred Rowley (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: , [CC BY-SA 3.0](https://commons.wikimedia.org/wiki/File:Corvus-brachyrhynchos-001.jpg)
 
 ## Common Raven (*Corvus corax*)
 
-- Field guide clip: Scott Olmstead, [XC1080749](https://xeno-canto.org/1080749), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Esperanza Poveda, [XC1077707](https://xeno-canto.org/1077707), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1099362](https://xeno-canto.org/1099362) Romuald Mikusek (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1076854](https://xeno-canto.org/1076854) Lars Edenius (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1060365](https://xeno-canto.org/1060365) Yoann Blanchon (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1019144](https://xeno-canto.org/1019144) Eliska Kovarova (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1080749](https://xeno-canto.org/1080749) Scott Olmstead (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1077707](https://xeno-canto.org/1077707) Esperanza Poveda (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Frank Schulenburg, [CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Corvus_corax_clarionensis,_Point_Reyes_National_Seashore.jpg)
 
@@ -28,7 +28,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Great Horned Owl (*Bubo virginianus*)
 
-- Field guide clip: José María Loaiza B., [XC801701](https://xeno-canto.org/801701), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Richard E. Webster, [XC1077982](https://xeno-canto.org/1077982), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1190718](https://xeno-canto.org/1190718) Scott Olmstead (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1184640](https://xeno-canto.org/1184640) Alexander Cardoza (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1077982](https://xeno-canto.org/1077982) Richard E. Webster (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1029668](https://xeno-canto.org/1029668) Ken Burton (CC Attribution-NonCommercial-ShareAlike 4.0); [XC992839](https://xeno-canto.org/992839) Guillermo Menéndez (gmmv80) (CC Attribution-NonCommercial-ShareAlike 4.0); [XC801701](https://xeno-canto.org/801701) José María Loaiza B. (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Greg Hume, [CC BY-SA 3.0](https://commons.wikimedia.org/wiki/File:Bubo_virginianus_06.jpg)
 
@@ -46,19 +46,19 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Laughing Kookaburra (*Dacelo novaeguineae*)
 
-- Field guide clip: Nick Talbot, [XC1188306](https://xeno-canto.org/1188306), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Marcin Przymencki, [XC1085649](https://xeno-canto.org/1085649), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1188306](https://xeno-canto.org/1188306) Nick Talbot (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1173929](https://xeno-canto.org/1173929) Romuald Mikusek (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1104895](https://xeno-canto.org/1104895) Tom Cooney (CC Attribution-NonCommercial-ShareAlike 4.0); [XC858181](https://xeno-canto.org/858181) Ken George (CC Attribution-NonCommercial-ShareAlike 4.0); [XC856038](https://xeno-canto.org/856038) Andrew Galbraith (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1085649](https://xeno-canto.org/1085649) Marcin Przymencki (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Photo by: Paulweberphoto - paulweberphoto.com, [CC BY 4.0](https://commons.wikimedia.org/wiki/File:Laughing_Kookaburra_1.jpg)
 
 ## Indian Peafowl (*Pavo cristatus*)
 
-- Field guide clip: Jorge P, [XC1182365](https://xeno-canto.org/1182365), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Christian Kerihuel, [XC1077506](https://xeno-canto.org/1077506), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1182365](https://xeno-canto.org/1182365) Jorge P (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1166423](https://xeno-canto.org/1166423) African Bioacoustics Community (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1096596](https://xeno-canto.org/1096596) Uku Paal (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1137972](https://xeno-canto.org/1137972) BeakTech (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1077506](https://xeno-canto.org/1077506) Christian Kerihuel (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1015857](https://xeno-canto.org/1015857) David Darrell-Lambert (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Kandukuru Nagarjun from Bangalore, India, [CC BY 2.0](https://commons.wikimedia.org/wiki/File:Peacock_on_tree_(52077240794).jpg)
 
 ## Blue-footed Booby (*Sula nebouxii*)
 
-- Field guide clip: Oscar Campbell, [XC332855](https://xeno-canto.org/332855), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Roger Ahlman, [XC135237](https://xeno-canto.org/135237), Creative Commons Attribution-NonCommercial-ShareAlike 3.0
 - Reference recordings: [XC815553](https://xeno-canto.org/815553) Barry Edmonston (CC Attribution-NonCommercial-ShareAlike 4.0); [XC332857](https://xeno-canto.org/332857) Oscar Campbell (CC Attribution-NonCommercial-ShareAlike 4.0); [XC411507](https://xeno-canto.org/411507) Bobby Wilcox (CC Attribution-NonCommercial-ShareAlike 4.0); [XC135237](https://xeno-canto.org/135237) Roger Ahlman (CC Attribution-NonCommercial-ShareAlike 3.0); [XC815549](https://xeno-canto.org/815549) Barry Edmonston (CC Attribution-NonCommercial-ShareAlike 4.0); [XC332855](https://xeno-canto.org/332855) Oscar Campbell (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Benjamint444, [GFDL 1.2](https://commons.wikimedia.org/wiki/File:Blue-footed-booby.jpg)
 
@@ -76,7 +76,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Red-tailed Hawk (*Buteo jamaicensis*)
 
-- Field guide clip: Peter Ward and Ken Hall, [XC603736](https://xeno-canto.org/603736), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Bobby Wilcox, [XC914680](https://xeno-canto.org/914680), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1090861](https://xeno-canto.org/1090861) Manuel Grosselet (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1033919](https://xeno-canto.org/1033919) Rory Nefdt (CC Attribution-NonCommercial-ShareAlike 4.0); [XC809879](https://xeno-canto.org/809879) Ned Bohman (CC Attribution-NonCommercial-ShareAlike 4.0); [XC603736](https://xeno-canto.org/603736) Peter Ward and Ken Hall (CC Attribution-NonCommercial-ShareAlike 4.0); [XC973864](https://xeno-canto.org/973864) Richard E. Webster (CC Attribution-NonCommercial-ShareAlike 4.0); [XC914680](https://xeno-canto.org/914680) Bobby Wilcox (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Becky Matsubara from El Sobrante, California, [CC BY 2.0](https://commons.wikimedia.org/wiki/File:Red-tailed_Hawk_(45812546121).jpg)
 
@@ -100,7 +100,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Northern Cardinal (*Cardinalis cardinalis*)
 
-- Field guide clip: Pat Goltz, [XC1149457](https://xeno-canto.org/1149457), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Scott Crabtree, [XC1151504](https://xeno-canto.org/1151504), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1189632](https://xeno-canto.org/1189632) Alejandro Gordillo (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1149457](https://xeno-canto.org/1149457) Pat Goltz (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1012917](https://xeno-canto.org/1012917) Stanislas Wroza (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1000248](https://xeno-canto.org/1000248) David Tattersley (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1151504](https://xeno-canto.org/1151504) Scott Crabtree (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1146762](https://xeno-canto.org/1146762) Rory Nefdt (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Rhododendrites, [CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Male_northern_cardinal_in_Central_Park_(52612).jpg)
 
@@ -112,7 +112,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Sandhill Crane (*Antigone canadensis*)
 
-- Field guide clip: AUDEVARD Aurélien, [XC1046354](https://xeno-canto.org/1046354), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Stanislas Wroza, [XC1015005](https://xeno-canto.org/1015005), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1079590](https://xeno-canto.org/1079590) Scott Olmstead (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1060753](https://xeno-canto.org/1060753) Don Profota (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1015005](https://xeno-canto.org/1015005) Stanislas Wroza (CC Attribution-NonCommercial-ShareAlike 4.0); [XC878673](https://xeno-canto.org/878673) Bruce Lagerquist (CC Attribution-NonCommercial-ShareAlike 4.0); [XC803834](https://xeno-canto.org/803834) David Tattersley (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1046354](https://xeno-canto.org/1046354) AUDEVARD Aurélien (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: JeffreyGammon, [CC BY 4.0](https://commons.wikimedia.org/wiki/File:Sandhill_Crane_JG.jpg)
 
@@ -130,7 +130,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Atlantic Puffin (*Fratercula arctica*)
 
-- Field guide clip: Vincent van der Spek, [XC500860](https://xeno-canto.org/500860), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Stanislas Wroza, [XC479186](https://xeno-canto.org/479186), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1087387](https://xeno-canto.org/1087387) Roland Arnison (CC Attribution-NonCommercial-ShareAlike 4.0); [XC500860](https://xeno-canto.org/500860) Vincent van der Spek (CC Attribution-NonCommercial-ShareAlike 4.0); [XC479186](https://xeno-canto.org/479186) Stanislas Wroza (CC Attribution-NonCommercial-ShareAlike 4.0); [XC809908](https://xeno-canto.org/809908) Paul Kelly (CC Attribution-NonCommercial-ShareAlike 4.0); [XC667981](https://xeno-canto.org/667981) Irish Wildlife Sounds (CC Attribution-NonCommercial-ShareAlike 4.0); [XC663986](https://xeno-canto.org/663986) Stein Ø. Nilsen (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Charles J. Sharp, [CC BY-SA 4.0](https://commons.wikimedia.org/wiki/File:Puffin_(Fratercula_arctica).jpg)
 
@@ -184,13 +184,13 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Eurasian Bittern (*Botaurus stellaris*)
 
-- Field guide clip: Christian Bøggild, [XC1192839](https://xeno-canto.org/1192839), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Stanley Baldauf, [XC981988](https://xeno-canto.org/981988), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1192839](https://xeno-canto.org/1192839) Christian Bøggild (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1191974](https://xeno-canto.org/1191974) Astrid Cervantes (CC Attribution-NonCommercial-ShareAlike 4.0); [XC981988](https://xeno-canto.org/981988) Stanley Baldauf (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1191329](https://xeno-canto.org/1191329) Jouke Altenburg (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1187639](https://xeno-canto.org/1187639) Vandousselaere Patrick (CC Attribution-NonCommercial-ShareAlike 4.0); [XC906355](https://xeno-canto.org/906355) Radek Grochowski (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Francesco Veronesi from Italy, [CC BY-SA 2.0](https://commons.wikimedia.org/wiki/File:Eurasian_Bittern_-_Torrile_-_Italy_4528_(15409347121).jpg)
 
 ## Common Cuckoo (*Cuculus canorus*)
 
-- Field guide clip: Petter Westberg, [XC1085590](https://xeno-canto.org/1085590), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Aku Kalliomäki, [XC1151786](https://xeno-canto.org/1151786), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC1180938](https://xeno-canto.org/1180938) Bo Shunqi 薄顺奇 (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1151786](https://xeno-canto.org/1151786) Aku Kalliomäki (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1085590](https://xeno-canto.org/1085590) Petter Westberg (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1049567](https://xeno-canto.org/1049567) Miriam Öttl (CC Attribution-NonCommercial-ShareAlike 4.0); [XC982391](https://xeno-canto.org/982391) Benjamin Drillat (CC Attribution-NonCommercial-ShareAlike 4.0); [XC1146170](https://xeno-canto.org/1146170) Eetu Paljakka (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Andy Morffew from Itchen Abbas, Hampshire, UK, [CC BY 2.0](https://commons.wikimedia.org/wiki/File:Cuckoo_(51169010335).jpg)
 
@@ -208,7 +208,7 @@ Bird recordings come from [xeno-canto](https://xeno-canto.org) and are used unde
 
 ## Kea (*Nestor notabilis*)
 
-- Field guide clip: Barry Edmonston, [XC796387](https://xeno-canto.org/796387), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+- Field guide clip: Romuald Mikusek, [XC405529](https://xeno-canto.org/405529), Creative Commons Attribution-NonCommercial-ShareAlike 4.0
 - Reference recordings: [XC961343](https://xeno-canto.org/961343) Meena Haribal (CC Attribution-NonCommercial-ShareAlike 4.0); [XC428662](https://xeno-canto.org/428662) David Welch (CC Attribution-NonCommercial-ShareAlike 4.0); [XC405529](https://xeno-canto.org/405529) Romuald Mikusek (CC Attribution-NonCommercial-ShareAlike 4.0); [XC198866](https://xeno-canto.org/198866) Rob van Bemmelen (CC Attribution-NonCommercial-ShareAlike 4.0); [XC796387](https://xeno-canto.org/796387) Barry Edmonston (CC Attribution-NonCommercial-ShareAlike 4.0); [XC405514](https://xeno-canto.org/405514) Romuald Mikusek (CC Attribution-NonCommercial-ShareAlike 4.0)
 - Photo: Mark Whatmough, [CC BY 2.0](https://commons.wikimedia.org/wiki/File:Nestor_notabilis_-Fiordland,_New_Zealand-8b.jpg)
 
